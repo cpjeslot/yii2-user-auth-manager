@@ -4,8 +4,6 @@
 /** @var string $content */
 
 use app\assets\AppAsset;
-use app\assets\AutoCompleteAsset;
-use app\modules\auth\components\Helper;
 use app\widgets\Alert;
 use app\widgets\SweetAlert;
 use yii\bootstrap5\Breadcrumbs;
@@ -14,7 +12,7 @@ use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
 
 AppAsset::register($this);
-AutoCompleteAsset::register($this);
+
 SweetAlert::widget(['useSessionFlash' => true]);
 
 $this->registerCsrfMetaTags();
@@ -41,21 +39,16 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'brandUrl' => Yii::$app->homeUrl,
         'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
     ]);
-    
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'User', 'url' => ['/auth/user']],
-            ['label' => 'Assignment', 'url' => ['/auth/assignment']],
-            ['label' => 'Role', 'url' => ['/auth/role']],
-            ['label' => 'Permission', 'url' => ['/auth/permission']],
-            ['label' => 'Route', 'url' => ['/auth/route']],
-            ['label' => 'Menus', 'url' => ['/auth/menu']],
+            ['label' => 'About', 'url' => ['/site/about']],
+            ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest
-                ? ['label' => 'Login', 'url' => ['/auth/user/login']]
+                ? ['label' => 'Login', 'url' => ['/site/login']]
                 : '<li class="nav-item">'
-                    . Html::beginForm(['/auth/user/logout'])
+                    . Html::beginForm(['/site/logout'])
                     . Html::submitButton(
                         'Logout (' . Yii::$app->user->identity->username . ')',
                         ['class' => 'nav-link btn btn-link logout']
@@ -64,17 +57,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                     . '</li>'
         ]
     ]);
-    
     NavBar::end();
     ?>
-
-
-    <?php 
-        // echo Menu::Widget([
-        //     'items' => Helper::filter($menuItems),
-        // ]); 
-    ?>
-    
 </header>
 
 <main id="main" class="flex-shrink-0" role="main">
@@ -82,9 +66,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         <?php if (!empty($this->params['breadcrumbs'])): ?>
             <?= Breadcrumbs::widget(['links' => $this->params['breadcrumbs']]) ?>
         <?php endif ?>
-        <div class="site-index mt-5 mb-5">
-            <?= $content ?>
-        </div>
+        <?= $content ?>
     </div>
 </main>
 
